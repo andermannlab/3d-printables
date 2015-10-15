@@ -45,3 +45,11 @@ module hullPipe(topd, based, transx, wall, h) {
         }
     }
 }
+
+// ---------------------------------------------------------------------
+// Transform: make a copy of an object and mirror across the X axis
+
+module copy_mirror(vec=[0,1,0]) { 
+    children(); 
+    mirror(vec) children(); 
+}
