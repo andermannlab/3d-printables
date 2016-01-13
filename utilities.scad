@@ -1,3 +1,5 @@
+$fa = 0.1;
+
 // ---------------------------------------------------------------------
 // Back to basic math. This is the dot product of two vectors normalized
 // to unit length. Takes two 3D vectors, u and v
@@ -50,6 +52,70 @@ module hullPipe(topd, based, transx, wall, h) {
 // Transform: make a copy of an object and mirror across the X axis
 
 module copy_mirror(vec=[0,1,0]) { 
-    children(); 
+    children();
     mirror(vec) children(); 
+}
+
+module copy_move(vec=[0, 0, 0]) {
+    children();
+    translate(vec) children();
+}
+
+module copy_rotate(angle, vec=[0, 0, 1]) {
+    children();
+    rotate(angle, vec) children();
+}
+
+// ---------------------------------------------------------------------
+// Create a rounded rectangle (similar to cube, but with rounding radius
+
+module rrect(sz, r=3) {
+    w = sz[0];
+    h = sz[1];
+    d = sz[2];
+    
+    hull() {
+        translate([r, r, 0])
+        cylinder(r=r, h=d);
+        
+        translate([w-r, r, 0])
+        cylinder(r=r, h=d);
+        
+        translate([w-r, h-r, 0])
+        cylinder(r=r, h=d);
+        
+        translate([r, h-r, 0])
+        cylinder(r=r, h=d);
+        
+        translate([r, r, 0])
+        cube([w - r*2, h - r*2, d]);
+    }
+}
+
+module rrect3(sz, r=3) {
+    w = sz[0];
+    h = sz[1];
+    d = sz[2];
+    
+    hull() {
+        copy_move([0, 0, d - 2*r]) {
+            translate([r, r, r])
+            sphere(r);
+            
+            translate([w-r, r, r])
+            sphere(r);
+            
+            translate([w-r, h-r, r])
+            sphere(r);
+            
+            translate([r, h-r, r])
+            sphere(r);
+        }
+    }
+}
+
+// size is the XY plane size, height in Z
+module hexagon(size, height) {
+  boxWidth = size/1.75;
+  for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
 }
