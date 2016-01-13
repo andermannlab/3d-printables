@@ -2,7 +2,7 @@ use <utilities.scad>
 use <curvedPipe.scad>
 
 // Set the number of objects that make a curve to 64
-$fn = 64;
+$fn = 128;
 
 // ========================================================== //
 // Variables
@@ -124,7 +124,7 @@ module lickspoutArm(od, id, subtract=false) {
         
         // Add a pretty little polygon so that Christian can't break it
         linear_extrude(3)
-        translate([2.5, 1.5])
+        translate([1, 1.5])
         polygon([[0, -2 - (od - id)/4.0], [0, 2 + (od - id)/4.0], [3, 1.5], [3, -1.5]]);
     }
 }
@@ -157,25 +157,55 @@ module halfLickspout(od, id, female=false) {
 //      slipTip
 
 module lickspout(od, id, female=false) {
+/*    intersection() {
+        translate([5.5, 0.25, -1])
+        rotate([90, 0, 0])
+        cylinder(r=5, h=1);
+        
+        translate([2, 1, 5])
+        rotate([90, 0, 0])
+        cylinder(r=5, h=2);
+        
+        translate([0, -2.5, 0])
+        cube(5.5);
+    }
+  */  
+        
     union() {
         // Translation necessary because we've sharpened the tip
         translate([-1, 0, od/2.0])
         difference() {
             // Add two halves together
+            translate([-1.5, 0, 0])
             union() {
                 halfLickspout(od, id, female);
                 mirror([0, 1, 0])
                 halfLickspout(od, id, female);
+                
+                translate([2.5, -0.4, -od/2.0])
+                cube([5, 0.8, 5]);
             }
             
             // And subtract the tip
-            rotate([0, -35, 0])
+            rotate([0, -50, 0])
             translate([-2, -15, -2.5])
+            cube(20);
+            
+            translate([-15, -10, 0])
+            cube(20);
+            
+            translate([3, 0, 1.55])
+            // And subtract the tip
+            rotate([0, -50, 0])
+            translate([0, -15, -2.5])
+            cube(20);
+            
+            translate([-20, -10, -5])
             cube(20);
         }
         
         // Add a cube to hold the two arms together
-        translate([22, -1.5, 0]) {
+        translate([20.5, -1.5, 0]) {
             translate([-.5, -0.5 - (od - id)/4.0, 0])
             cube([3, 4 + (od - id)/2.0, 10]);
         }
@@ -255,5 +285,5 @@ module unilicker(od, id, female=true) {
 
 fulldiameter = lickspout_tube_inner_diameter + 2*lickspout_tube_wall;
 
-//lickspout(fulldiameter, lickspout_tube_inner_diameter, female=true);
-unilicker(fulldiameter, lickspout_tube_inner_diameter);
+lickspout(fulldiameter, lickspout_tube_inner_diameter, female=true);
+//unilicker(fulldiameter, lickspout_tube_inner_diameter);
