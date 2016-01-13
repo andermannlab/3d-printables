@@ -139,7 +139,7 @@ module support(di, h, ax, narms) { // weighs 25 g
         }
         
         rotate([0, 0, 22.5+180])
-        union() {[ 0.00, 0.00, 0.00 ]
+        union() {// [ 0.00, 0.00, 0.00 ]
             // M4 bolt hole
             translate([0, 0, 6 - 3])
             rotate([0, 90, 0])
