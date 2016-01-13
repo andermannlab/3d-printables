@@ -107,7 +107,7 @@ module stickRing(od, id) {
         translate([0, 0, od/2 - (od-id)/2])
         rotate([0, 90, 0])
         difference() {
-            pipe(od, id, 5);
+            pipe(od+1.5, id, 5);
             translate([0, 0, -1])
             difference() {
                 cylinder(r=id/2+0.5, h=7);
@@ -116,8 +116,8 @@ module stickRing(od, id) {
             }
         }
                 
-        translate([-1, -1, -od*2])
-        cube(od*2);
+        translate([-5, -5, -od*3])
+        cube(od*3);
     }
 }
 
@@ -134,10 +134,10 @@ module thickStickRing(od, id) {
         translate([0, 0, od/2 - (od-id)/2])
         rotate([0, 90, 0])
         difference() {
-            pipe(od, id, 6);
+            pipe(od+2, id, 8);
             translate([0, 0, -1])
             difference() {
-                cylinder(r=id/2+0.5, h=8);
+                cylinder(r=id/2+0.8, h=8);
                 translate([0, -od/2, -1])
                 cube(od);
             }
